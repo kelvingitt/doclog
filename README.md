@@ -391,3 +391,47 @@ linux 文件读取修改命令
 设计网页测试用例： 功能测试，易用性测试，兼容性测试，安全性测试，性能测试，压力测试，网络测试
 反问：
 测试一般需要做的业务：大数据，网络安全
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def str2tree(self, s: str) -> TreeNode:
+        #初始化数值与栈
+        num,stack = '',[]
+        #进行遍历
+        for i in s:
+            #当出现(,调用入栈的函数
+            if i == '(' :
+                num = self.generate_node(num,stack)
+            #当出现),表示某子树完成，入栈并弹出完成的树
+            elif i == ')' :
+                num = self.generate_node(num,stack)
+                stack.pop(-1)
+            #当不为(),积累数值
+            elif i not in '()':
+                num += i
+        return stack[-1] if stack else None if not s else TreeNode(int(s))
+    
+    def generate_node(self,num,stack):
+        #判断是否为''
+        node = TreeNode(val=int(num)) if num else None
+        #如果栈中有节点，进行左右子节点的连接
+        if stack:
+            if not stack[-1].left:
+                stack[-1].left = node
+            elif not stack[-1].right:
+                stack[-1].right = node
+        #节点入栈
+        if node:
+            stack.append(node)
+        return ''
+        
+        
+        
+
+
